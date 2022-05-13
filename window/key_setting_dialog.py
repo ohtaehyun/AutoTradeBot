@@ -15,4 +15,6 @@ class KeySettingDialog(QDialog):
         binance_info = BinanceInfoSingleton.instance()
         binance_info.set_public(self.pubKeyEdit.text())
         binance_info.set_private(self.privKeyEdit.text())
+        binance_info.set_client()
+        self.close()
 

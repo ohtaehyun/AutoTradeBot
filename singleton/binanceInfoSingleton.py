@@ -1,7 +1,7 @@
+from binance.client import Client
+
 class BinanceInfoSingleton:
     __instance: None
-    public_key:None
-    private_key:None
 
     def get_public(self):
         return self.public_key
@@ -13,7 +13,16 @@ class BinanceInfoSingleton:
         self.public_key = public_key
 
     def set_private(self,private_key):
-        self.private_key =private_key
+        self.private_key = private_key
+    
+    def set_client(self):
+        self.binance_client = Client(self.public_key,self.private_key)
+
+    def get_client(self):
+        if hasattr(self,"binance_client"):
+            return self.binance_client
+        else:
+            return None
 
     @classmethod
     def __getInstance(cls):
@@ -21,9 +30,6 @@ class BinanceInfoSingleton:
 
     @classmethod
     def instance(cls,*args, **kargs):
-        try:
-            cls.__instance = cls(*args, **kargs)
-            cls.instance = cls.__getInstance
-            return cls.__instance
-        except Exception as ex:
-            print(ex)
+        cls.__instance = cls(*args, **kargs)
+        cls.instance = cls.__getInstance
+        return cls.__instance

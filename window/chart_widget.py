@@ -38,6 +38,8 @@ class ChartWidget(QWidget):
 
         self.priceWorker = PriceWorker(ticker)
         self.priceWorker.dataSent.connect(self.appendData)
+        
+        # 이녀석을 중앙 통제
         self.priceWorker.start()
         
         self.priceView.setChart(self.priceChart)

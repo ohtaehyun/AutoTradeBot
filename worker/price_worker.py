@@ -1,6 +1,9 @@
+import string
 import time
 import ccxt
 from PyQt5.QtCore import QThread, pyqtSignal
+
+from singleton.binanceInfoSingleton import BinanceInfoSingleton
 
 class PriceWorker(QThread):
     dataSent = pyqtSignal(float)
@@ -9,13 +12,18 @@ class PriceWorker(QThread):
         super().__init__()
         self.ticker = ticker
         self.alive = True
-        self.binance = ccxt.binance()
+        self.binance = BinanceInfoSingleton.instance().get_client()
 
     def run(self):
         while self.alive:
-            data  = self.binance.fetch_ticker(self.ticker)
+            if(self.binance is None):
+                self.binance = BinanceInfoSingleton.instance().get_client()
+
+            if(self.binance is not None):
+                data  = self.binance.get_symbol_ticker(symbol=self.ticker)
+                self.dataSent.emit(float(data['price']))
+          
             time.sleep(1)
-            self.dataSent.emit(data['open'])
 
     def close(self):
         self.alive = False
