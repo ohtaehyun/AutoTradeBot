@@ -1,3 +1,4 @@
+import os
 from PyQt5.QtWidgets import QWidget
 from PyQt5 import uic
 from PyQt5.QtChart import QLineSeries, QChart
@@ -5,12 +6,13 @@ from PyQt5.QtGui import QPainter
 from PyQt5.QtChart import QLineSeries, QChart, QValueAxis, QDateTimeAxis
 from PyQt5.QtCore import Qt, QDateTime
 
-from worker.price_worker import PriceWorker
+from src.price_worker import PriceWorker
 
 class ChartWidget(QWidget):
     def __init__(self,parent=None,ticker="BTCUSDT") -> None:
         super().__init__(parent)
-        uic.loadUi("./src/ui/chart.ui",self)
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__)) 
+        uic.loadUi(BASE_DIR + r"\chart_widget.ui",self)
         self.ticker = ticker
         self.viewLimit = 128
 
