@@ -1,6 +1,4 @@
-import string
 import time
-import ccxt
 from PyQt5.QtCore import QThread, pyqtSignal
 from binance.client import Client
 from singleton.binanceInfoSingleton import BinanceInfoSingleton
